@@ -5,6 +5,7 @@ using TMPro;
 
 public class CardWinObjectScript : MonoBehaviour
 {
+
     public TMP_Text CardWinText;
 
     private string win = "You won!";

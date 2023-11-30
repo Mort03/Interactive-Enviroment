@@ -17,10 +17,4 @@ public class ShuffleScript : MonoBehaviour
     {
         shuffle.ShuffleCards();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
