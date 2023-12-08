@@ -11,13 +11,14 @@ public class PlayerInteractScript : MonoBehaviour
             RaycastHit hitInfo = new RaycastHit();
             bool hit = Physics.Raycast(transform.position, transform.forward, out hitInfo, 5f);
 
-            //Draws out a red laser when using the raycast
             Debug.DrawRay(transform.position, transform.forward, Color.red, 1);
 
             if (hit == true)
             {
+                
                 DoorScript interactable;
-                hitInfo.transform.TryGetComponent<DoorScript>(out interactable);
+                hitInfo.transform.TryGetComponent<DoorScript> (out interactable);
+                
 
                 if (interactable != null)
                 {

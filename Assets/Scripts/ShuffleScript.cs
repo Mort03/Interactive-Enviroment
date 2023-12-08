@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ShuffleScript : MonoBehaviour
 {
-
     CardScript shuffle; 
 
     // Start is called before the first frame update
@@ -13,7 +12,8 @@ public class ShuffleScript : MonoBehaviour
         shuffle = GetComponent<CardScript>();
     }
 
-    private void OnMouseDown()
+    //This will activate by a line of code in "CardScript"
+    public void OnMouseDown()
     {
         shuffle.ShuffleCards();
     }

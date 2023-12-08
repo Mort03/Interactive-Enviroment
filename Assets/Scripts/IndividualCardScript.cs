@@ -4,23 +4,27 @@ using UnityEngine;
 
 public class IndividualCardScript : MonoBehaviour
 {
+    CardScript cardUp;
+
     // Start is called before the first frame update
     void Start()
     {
+        cardUp = GetComponent<CardScript>();
         gameObject.GetComponent<Renderer>().enabled = false;
     }
 
-    private void OnMouseDown()
+    public void OnMouseDown()
     {
         if (gameObject.GetComponent<Renderer>().enabled == false)
         {
             gameObject.GetComponent<Renderer>().enabled = true;
+            cardUp.CardUp();
         }
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public void renderFalse()
     {
-        
+        gameObject.GetComponent<Renderer>().enabled = false;
     }
+    
 }

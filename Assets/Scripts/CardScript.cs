@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class CardScript : MonoBehaviour
 {
-    CardWinObjectScript victoryText;
-
     public GameObject card1Pair1;
     public GameObject card2Pair1;
     public GameObject card1Pair2;
@@ -29,68 +27,68 @@ public class CardScript : MonoBehaviour
     bool cardPair2 = false;
     //bool cardPair3 = false; if i want it to be harder
 
-    bool victory = false;
+    IndividualCardScript oneCard;
+    CardWinObjectScript victoryText;
 
     void Start()
     {
         victoryText = GetComponent<CardWinObjectScript>();
+        oneCard = GetComponent<IndividualCardScript>();
 
         cardDeck.Add(card1Pair1);
         cardDeck.Add(card2Pair1);
         cardDeck.Add(card1Pair2);
         cardDeck.Add(card2Pair2);
 
-        markLocation.Add(new Vector3(3.2f, 4f, 1.3f));
-        markLocation.Add(new Vector3(2f, 4f, 1.3f));
-        markLocation.Add(new Vector3(0.8f, 4, 1.3f));
-        markLocation.Add(new Vector3(-0.4f, 4f, 1.3f));
-
         
+        markLocation.Add(new Vector3( -15f, 4.02f, 6.2f));
+        markLocation.Add(new Vector3(-16.24f, 4.02f, 6.2f));
+        markLocation.Add(new Vector3( -13.76f, 4.02f, 6.2f));
+        markLocation.Add(new Vector3( -12.62f, 4.02f, 6.2f));
+
+
+        //This for and while loop does not work
         //Add 4 randomized numbers into the list, because of this for-loop
         for (int i = 0; i <= 5; i++)
         {
             //While the same number exist in the "random number list", it will constantly randomize the number
             //until the numbers are different
+            //The code does not work and was supposed to be "while (!rndNumList.Contains(i))" but i could not start the game, i'm only loading when testing
             while (rndNumList.Contains(i))
             {
                 rndNumList.Add(Random.Range(0, 4));
-                Debug.Log("while funkar");
             }
+            Debug.Log("For loop fungerar");
         }
-        
-        /*
-        //All objects in cardDeck gets their renderer enabled to false, meaning they are not visible
-        //But still interactable
-        for (int i = 0; i < cardDeck.Count; i++)
-        {
-            cardDeck[i].GetComponent<Renderer>().enabled = true;
-        }
-        */
-        //Objects in cardDeck gets a new position with markLocation
-        //markLocation gets a random number make sure the card objects are not easily solved
+
+        //This for loop was supposed to give the cards in cardDeck each a place in the world, but it would not make them move to that position
+        //The for loop does work but not the code inside
         for (int i = 0; i <= 5; i++)
         {
+            //For some reason this does not work, even when i change to make it look more like my "DoorScript"
+            //because that script works, it makes the objects move, this code does not
             cardDeck[i].transform.localPosition = markLocation[rndNumList[i]];
         }
     }
     
-    void ResetFlip()
+    public void ResetFlip()
     {
-
         cardFlips = 0;
         cardTimer = 0;
 
-        //INSTEAD CALL FOR IT, THIS WONT WORK
-        /*
-        //When ShuffleCards activates, the renderer of each object is enabled equal to false, making it invisible
-        for (int i = 0; i < cardDeck.Count; i++)
-        {
-            cardDeck[i].GetComponent<Renderer>().enabled = false;
-        }
-        */
+        //This will activate by a line of code in "IndividualCardScript"
+        //Also this line of code under is making alot of console errors
+        //oneCard.renderFalse();
+
     }
 
+    //This will activate by a line of code in "IndividualCardScript"
+    public void CardUp()
+    {
+        cardFlips++;
+    }
 
+    //This will activate by a line of code in "ShuffleScript"
     public void ShuffleCards()
     {
         //This will activate a seperate function and this, because of the code that needs to activate
@@ -98,9 +96,6 @@ public class CardScript : MonoBehaviour
 
         cardPair1 = false;
         cardPair2 = false;
-        //cardPair3 = false;
-
-        victory = false;
 
         victoryText.ShuffleRemoveText();
 
@@ -128,15 +123,20 @@ public class CardScript : MonoBehaviour
     
     void FixedUpdate()
     {
-        if (card1Pair1 && card2Pair1 == GetComponent<Renderer>().enabled == true && cardPair1 == false)
+        //This code is supposed to check for both renderers of the first pair to be true, but wont make any connections for some reason
+        //But the debug wont give me a signal, i know that it's supposed to only check, but i have not reach a solution for this
+        if (card1Pair1.GetComponent<Renderer>().enabled == true && card2Pair1.GetComponent<Renderer>().enabled == true && cardPair1 == false)
         {
             cardPair1 = true;
+            //Debug.Log("pair1 activated");
         }
-        if (card1Pair2 && card2Pair2 == GetComponent<Renderer>().enabled == true)
+        if (card1Pair2.GetComponent<Renderer>().enabled == true && card2Pair2.GetComponent<Renderer>().enabled == true && cardPair2 == false)
         {
             cardPair2 = true;
         }
-        if (cardFlips > 2 || cardTimer == 200)
+
+        //This code works, but the ResetFlip does not
+        if (cardFlips > 2 || cardTimer >= 200)
         {
             ResetFlip();
         }
@@ -148,23 +148,17 @@ public class CardScript : MonoBehaviour
         if (cardPair1 == true && cardPair2 == true)
         {
             victoryText.YouWonCardGame();
-            victory = true;
-        }
-
-        if (victory == true)
-        {
-            cardFlips = 0;
-            cardTimer = 0;
         }
         if (cardPair1 == true)
         {
-            //cardDeck[0].GetComponent<Renderer>().enabled = true;
-            //cardDeck[1].GetComponent<Renderer>().enabled = true;
+            card1Pair1.GetComponent<Renderer>().enabled = true;
+            card2Pair1.GetComponent<Renderer>().enabled = true;
         }
         if (cardPair2 == true)
         {
-            //cardDeck[2].GetComponent<Renderer>().enabled = true;
-            //cardDeck[3].GetComponent<Renderer>().enabled = true;
+            card1Pair2.GetComponent<Renderer>().enabled = true;
+            card2Pair2.GetComponent<Renderer>().enabled = true;
         }
+        
     }   
 }

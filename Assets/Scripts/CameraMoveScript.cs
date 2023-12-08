@@ -22,16 +22,9 @@ public class CameraMoveScript : MonoBehaviour
         transform.localEulerAngles = desiredRotation;
         target.localEulerAngles = desiredTargetRotation;
 
-        //The players "forward" is the cameras "forward"
-        //In other words, you look left, the character model moves left (in x-axis)
-        //target.forward = transform.forward;
-
         float positionY = target.position.y + 1;
         float positionX = target.position.x;
         float positionZ = target.position.z;
-
-        //if i ever need the other line of code for target position:
-        //Vector3 desiredPosition = target.position - transform.forward * followDistance;
 
         Vector3 desiredHeadLevel = new Vector3 ( positionX, positionY, positionZ);
 
